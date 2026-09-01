@@ -63,3 +63,19 @@ forge script script/CreateAaveV3SmartDebtPosition.s.sol:CreateAaveV3SmartDebtPos
 
 `Aqua.dock` only disables the shipped strategy. Closing, repaying, or
 withdrawing the Aave position remains a separate user workflow.
+
+## BaseScan source verification
+
+After the deployment transaction has confirmed, source-verify both contracts
+on BaseScan using an Etherscan API v2 key. The script reads their addresses
+from `deployments/8453.json` and derives the constructor arguments from the
+same Base configuration used to deploy:
+
+```bash
+export ETHERSCAN_API_KEY=...
+chmod +x scripts/verify-aave-v3-smart-debt-base.sh
+scripts/verify-aave-v3-smart-debt-base.sh
+```
+
+It submits the Solidity 0.8.30, optimizer-runs 700, `via_ir` build settings
+required to match the deployed bytecode and waits for each verification result.
