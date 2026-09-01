@@ -43,9 +43,9 @@ access-token issuer, not copied from Base.
 
 ## Runbook
 
-Deploy first, then create the user position. Both scripts read `PRIVATE_KEY`
-directly from the environment and use it as the broadcast signer; an RPC URL
-is supplied to Forge. The create script additionally requires the
+Deploy first, then create the user position. Both scripts use the signer passed
+to Forge on the command line; an RPC URL is also supplied to Forge. The create
+script additionally requires the
 explicit asset, debt-token, amount, and deployment environment variables listed
 in `config/aave-v3-smart-debt.base.env.example` (or the Ethereum equivalent).
 The Base router is Uniswap's SwapRouter02, whose exact-input-single ABI omits
@@ -53,9 +53,11 @@ the legacy `deadline` field; the opener uses that deployed interface.
 
 ```bash
 forge script script/DeployAaveV3SmartDebt.s.sol:DeployAaveV3SmartDebt \
+  --private-key "$PRIVATE_KEY" \
   --rpc-url https://mainnet.base.org --broadcast
 
 forge script script/CreateAaveV3SmartDebtPosition.s.sol:CreateAaveV3SmartDebtPosition \
+  --private-key "$PRIVATE_KEY" \
   --rpc-url https://mainnet.base.org --broadcast
 ```
 

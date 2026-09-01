@@ -28,7 +28,6 @@ interface IAquaSwapVMRouter {
 ///      variables, keeping the script safe across Base and Ethereum deployments.
 contract CreateAaveV3SmartDebtPosition is Script {
     function run() external {
-        uint256 privateKey = vm.envUint("PRIVATE_KEY");
         address owner = vm.envAddress("POSITION_OWNER");
         address router = vm.envAddress("AQUA_SWAP_VM_ROUTER");
         address positionAsset = vm.envAddress("POSITION_ASSET");
@@ -46,10 +45,9 @@ contract CreateAaveV3SmartDebtPosition is Script {
 
         (AaveV3LeverageOpener opener, AaveV3SmartDebtHook hook) = _loadDeployments();
         require(strategyCapacity == initialDebtAmount, "V1 capacity must equal initial debt");
-        require(owner == vm.addr(privateKey), "owner must match broadcaster");
 
         Aqua aqua = Aqua(IAquaSwapVMRouter(router).AQUA());
-        vm.startBroadcast(privateKey);
+        vm.startBroadcast();
         IERC20(positionAsset).approve(address(opener), initialCollateralAmount);
         IVariableDebtToken(initialDebtToken).approveDelegation(address(opener), initialDebtAmount);
         IERC20(initialDebtAsset).approve(address(aqua), type(uint256).max);
