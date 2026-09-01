@@ -14,11 +14,12 @@ import { AaveV3LeverageOpener } from "../src/poc/AaveV3LeverageOpener.sol";
 ///      UNISWAP_V3_SWAP_ROUTER. The emitted JSON is consumed by user scripts.
 contract DeployAaveV3SmartDebt is Script {
     function run() external {
+        uint256 privateKey = vm.envUint("PRIVATE_KEY");
         address pool = vm.envAddress("AAVE_V3_POOL");
         address aquaRouter = vm.envAddress("AQUA_SWAP_VM_ROUTER");
         address uniswapRouter = vm.envAddress("UNISWAP_V3_SWAP_ROUTER");
 
-        vm.startBroadcast();
+        vm.startBroadcast(privateKey);
         AaveV3SmartDebtHook hook = new AaveV3SmartDebtHook(IAaveV3Pool(pool), aquaRouter);
         AaveV3LeverageOpener opener = new AaveV3LeverageOpener(IAaveV3Pool(pool), IUniswapV3SwapRouter(uniswapRouter));
         vm.stopBroadcast();
