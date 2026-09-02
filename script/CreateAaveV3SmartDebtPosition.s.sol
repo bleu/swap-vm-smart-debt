@@ -81,8 +81,8 @@ contract CreateAaveV3SmartDebtPosition is Script {
     function _loadDeployments() private view returns (AaveV3LeverageOpener opener, AaveV3SmartDebtHook hook) {
         string memory key = vm.toString(block.chainid);
         string memory json = vm.readFile(string.concat(vm.projectRoot(), "/deployments/", key, ".json"));
-        opener = AaveV3LeverageOpener(vm.parseJsonAddress(json, string.concat(".", key, ".leverageOpener")));
-        hook = AaveV3SmartDebtHook(vm.parseJsonAddress(json, string.concat(".", key, ".smartDebtHook")));
+        opener = AaveV3LeverageOpener(vm.parseJsonAddress(json, ".leverageOpener"));
+        hook = AaveV3SmartDebtHook(vm.parseJsonAddress(json, ".smartDebtHook"));
     }
 
     function _order(address owner, address tokenA, address tokenB, AaveV3SmartDebtHook hook, bool requireKyc)

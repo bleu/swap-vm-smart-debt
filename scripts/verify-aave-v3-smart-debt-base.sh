@@ -19,11 +19,11 @@ if [[ ! -f "$deployments_file" ]]; then
     exit 1
 fi
 
-hook="$(jq -r '."8453".smartDebtHook' "$deployments_file")"
-opener="$(jq -r '."8453".leverageOpener' "$deployments_file")"
+hook="$(jq -r '.smartDebtHook' "$deployments_file")"
+opener="$(jq -r '.leverageOpener' "$deployments_file")"
 
 if [[ "$hook" == "null" || "$opener" == "null" ]]; then
-    echo "Expected smartDebtHook and leverageOpener under key 8453 in $deployments_file" >&2
+    echo "Expected smartDebtHook and leverageOpener in $deployments_file" >&2
     exit 1
 fi
 
