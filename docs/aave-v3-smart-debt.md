@@ -17,7 +17,10 @@ supply/borrow/repay operation natively.
 
 ## Pricing and settlement
 
-The strategy uses a 0.99–1.01 concentrated range and a 0.1% `FeeFlatIn` fee.
+The strategy uses `XYC_SQRT_PRICE_LOWER` and `XYC_SQRT_PRICE_UPPER` for its
+custom concentrated range, and `AQUA_INPUT_FEE` for its `FeeFlatIn` fee.
+The Base template preserves the prior 0.99–1.01 range and 0.1% fee defaults;
+fee units are `1e7 = 100%` (`10_000 = 0.1%`).
 The curve prices from net input, while the hook receives the gross input and
 requires Aave to report the entire gross amount repaid. A partial repayment
 reverts the fill. The strategy starts one-sided, with capacity on the paired
